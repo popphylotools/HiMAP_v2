@@ -1,0 +1,14 @@
+name: himap2
+channels:
+- ioam
+- defaults
+dependencies:
+- holoviews
+- bokeh
+- pandas
+- biopython
+
+- sqlite
+- pip:
+  - gffutils==0.9
+  - pyfaidx==0.5.0
