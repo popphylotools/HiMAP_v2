@@ -43,8 +43,9 @@ Edit all .sh scripts to deal with envs overwriting each other's priority?
 
 ## Julian notes:
 Conda envs for running on LCC cluster:
-`#tweaked all .sh scripts to deal with envs overwriting each other
+```
+#tweaked all .sh scripts to deal with envs overwriting each other
 module load ccs/conda/python-3.7.3
 conda env create -f environment.yml --prefix ./manual_envs3
-conda install --prefix ./manual_envs3 -c bioconda orthofinder=2.5.4`
-
+conda install --prefix ./manual_envs3 -c bioconda orthofinder=2.5.4
+```
