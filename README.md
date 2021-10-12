@@ -6,6 +6,7 @@
 3. rename HiMAP2_master to HiMAP2
 4. cd HiMAP2
 5. create conda environment using bash script for linux or mac os
+	# We don't really need this anymore if we add orthofinder (with version) to the environment.yml file, as that'll load mafft
 6. activate environment
    conda activate himap2
 7. Set up directory system by running 
