@@ -1,0 +1,36 @@
+TR30139|c1_g1_i1	transdecoder	gene	1	1814	.	+	0	ID=TR30139|c1_g1_i1|g.20837;Name=Pigq
+TR30139|c1_g1_i1	transdecoder	mRNA	1	1814	.	+	0	ID=TR30139|c1_g1_i1|m.20837;Name=ORF%20TR30139%7Cc1_g1_i1%7Cg.20837%20TR30139%7Cc1_g1_i1%7Cm.20837%20type%3Acomplete%20len%3A527%20(%2B);Parent=TR30139|c1_g1_i1|g.20837;product=Phosphatidylinositol N-acetylglucosaminyltransferase subunit Q
+TR30139|c1_g1_i1	transdecoder	exon	1	1814	.	+	0	ID=TR30139|c1_g1_i1|m.20837.exon1;Parent=TR30139|c1_g1_i1|m.20837
+TR30139|c1_g1_i1	transdecoder	CDS	121	1701	.	+	0	ID=cds.TR30139|c1_g1_i1|m.20837;Parent=TR30139|c1_g1_i1|m.20837
+TR30139|c1_g1_i1	transdecoder	stop_codon	1699	121	.	+	0	ID=TR30139|c1_g1_i1|m.20837:stop;Parent=TR30139|c1_g1_i1|m.20837
+TR30139|c1_g1_i1	transdecoder	five_prime_UTR	1	120	.	+	0	ID=TR30139|c1_g1_i1|m.20837.utr5p1;Parent=TR30139|c1_g1_i1|m.20837
+TR30139|c1_g1_i1	transdecoder	three_prime_UTR	1702	1814	.	+	0	ID=TR30139|c1_g1_i1|m.20837.utr3p1;Parent=TR30139|c1_g1_i1|m.20837
+TR30139|c1_g1_i1	transdecoder	start_codon	121	123	.	+	0	ID=TR30139|c1_g1_i1|m.20837:start;Parent=TR30139|c1_g1_i1|m.20837
+TR33373|c0_g1_i1	transdecoder	gene	1	487	.	+	0	ID=TR33373|c0_g1_i1|g.22310;Name=ORF%20TR33373%7Cc0_g1_i1%7Cg.22310%20TR33373%7Cc0_g1_i1%7Cm.22310%20type%3A5prime_partial%20len%3A105%20(%2B)
+TR33373|c0_g1_i1	transdecoder	mRNA	1	487	.	+	0	ID=TR33373|c0_g1_i1|m.22310;Name=ORF%20TR33373%7Cc0_g1_i1%7Cg.22310%20TR33373%7Cc0_g1_i1%7Cm.22310%20type%3A5prime_partial%20len%3A105%20(%2B);Parent=TR33373|c0_g1_i1|g.22310
+TR33373|c0_g1_i1	transdecoder	exon	1	487	.	+	0	ID=TR33373|c0_g1_i1|m.22310.exon1;Parent=TR33373|c0_g1_i1|m.22310
+TR33373|c0_g1_i1	transdecoder	three_prime_UTR	318	487	.	+	0	ID=TR33373|c0_g1_i1|m.22310.utr3p1;Parent=TR33373|c0_g1_i1|m.22310
+TR33373|c0_g1_i1	transdecoder	CDS	1	317	.	+	2	ID=cds.TR33373|c0_g1_i1|m.22310;Parent=TR33373|c0_g1_i1|m.22310
+TR33373|c0_g1_i1	transdecoder	stop_codon	315	3	.	+	0	ID=TR33373|c0_g1_i1|m.22310:stop;Parent=TR33373|c0_g1_i1|m.22310
+TR47605|c0_g1_i1	transdecoder	gene	1	818	.	+	0	ID=TR47605|c0_g1_i1|g.33460;Name=ORF%20TR47605%7Cc0_g1_i1%7Cg.33460%20TR47605%7Cc0_g1_i1%7Cm.33460%20type%3A3prime_partial%20len%3A218%20(%2B)
+TR47605|c0_g1_i1	transdecoder	mRNA	1	818	.	+	0	ID=TR47605|c0_g1_i1|m.33460;Name=ORF%20TR47605%7Cc0_g1_i1%7Cg.33460%20TR47605%7Cc0_g1_i1%7Cm.33460%20type%3A3prime_partial%20len%3A218%20(%2B);Parent=TR47605|c0_g1_i1|g.33460
+TR47605|c0_g1_i1	transdecoder	five_prime_UTR	1	165	.	+	0	ID=TR47605|c0_g1_i1|m.33460.utr5p1;Parent=TR47605|c0_g1_i1|m.33460
+TR47605|c0_g1_i1	transdecoder	exon	1	818	.	+	0	ID=TR47605|c0_g1_i1|m.33460.exon1;Parent=TR47605|c0_g1_i1|m.33460
+TR47605|c0_g1_i1	transdecoder	start_codon	166	168	.	+	0	ID=TR47605|c0_g1_i1|m.33460:start;Parent=TR47605|c0_g1_i1|m.33460
+TR47605|c0_g1_i1	transdecoder	CDS	166	818	.	+	0	ID=cds.TR47605|c0_g1_i1|m.33460;Parent=TR47605|c0_g1_i1|m.33460
+TR55834|c0_g1_i1	transdecoder	gene	1	2915	.	+	0	ID=TR55834|c0_g1_i1|g.41398;Name=Poli
+TR55834|c0_g1_i1	transdecoder	mRNA	1	2915	.	+	0	ID=TR55834|c0_g1_i1|m.41398;Name=ORF%20TR55834%7Cc0_g1_i1%7Cg.41398%20TR55834%7Cc0_g1_i1%7Cm.41398%20type%3Acomplete%20len%3A845%20(%2B);Parent=TR55834|c0_g1_i1|g.41398;product=DNA polymerase iota
+TR55834|c0_g1_i1	transdecoder	exon	1	2915	.	+	0	ID=TR55834|c0_g1_i1|m.41398.exon1;Parent=TR55834|c0_g1_i1|m.41398
+TR55834|c0_g1_i1	transdecoder	CDS	214	2748	.	+	0	ID=cds.TR55834|c0_g1_i1|m.41398;Parent=TR55834|c0_g1_i1|m.41398
+TR55834|c0_g1_i1	transdecoder	stop_codon	2746	214	.	+	0	ID=TR55834|c0_g1_i1|m.41398:stop;Parent=TR55834|c0_g1_i1|m.41398
+TR55834|c0_g1_i1	transdecoder	five_prime_UTR	1	213	.	+	0	ID=TR55834|c0_g1_i1|m.41398.utr5p1;Parent=TR55834|c0_g1_i1|m.41398
+TR55834|c0_g1_i1	transdecoder	three_prime_UTR	2749	2915	.	+	0	ID=TR55834|c0_g1_i1|m.41398.utr3p1;Parent=TR55834|c0_g1_i1|m.41398
+TR55834|c0_g1_i1	transdecoder	start_codon	214	216	.	+	0	ID=TR55834|c0_g1_i1|m.41398:start;Parent=TR55834|c0_g1_i1|m.41398
+TR22686|c0_g1_i1	transdecoder	gene	1	1799	.	+	0	ID=TR22686|c0_g1_i1|g.14443;Name=bys
+TR22686|c0_g1_i1	transdecoder	mRNA	1	1799	.	+	0	ID=TR22686|c0_g1_i1|m.14443;Name=ORF%20TR22686%7Cc0_g1_i1%7Cg.14443%20TR22686%7Cc0_g1_i1%7Cm.14443%20type%3Acomplete%20len%3A437%20(%2B);Parent=TR22686|c0_g1_i1|g.14443;product=Bystin
+TR22686|c0_g1_i1	transdecoder	exon	1	1799	.	+	0	ID=TR22686|c0_g1_i1|m.14443.exon1;Parent=TR22686|c0_g1_i1|m.14443
+TR22686|c0_g1_i1	transdecoder	CDS	349	1659	.	+	0	ID=cds.TR22686|c0_g1_i1|m.14443;Parent=TR22686|c0_g1_i1|m.14443
+TR22686|c0_g1_i1	transdecoder	stop_codon	1657	349	.	+	0	ID=TR22686|c0_g1_i1|m.14443:stop;Parent=TR22686|c0_g1_i1|m.14443
+TR22686|c0_g1_i1	transdecoder	five_prime_UTR	1	348	.	+	0	ID=TR22686|c0_g1_i1|m.14443.utr5p1;Parent=TR22686|c0_g1_i1|m.14443
+TR22686|c0_g1_i1	transdecoder	three_prime_UTR	1660	1799	.	+	0	ID=TR22686|c0_g1_i1|m.14443.utr3p1;Parent=TR22686|c0_g1_i1|m.14443
+TR22686|c0_g1_i1	transdecoder	start_codon	349	351	.	+	0	ID=TR22686|c0_g1_i1|m.14443:start;Parent=TR22686|c0_g1_i1|m.14443

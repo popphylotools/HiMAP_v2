@@ -1,0 +1,34 @@
+TR15307|c1_g2_i4	transdecoder	gene	1	1039	.	+	0	ID=TR15307|c1_g2_i4|g.8158;Name=PIGC_0
+TR15307|c1_g2_i4	transdecoder	mRNA	1	1039	.	+	0	ID=TR15307|c1_g2_i4|m.8158;Name=ORF%20TR15307%7Cc1_g2_i4%7Cg.8158%20TR15307%7Cc1_g2_i4%7Cm.8158%20type%3Acomplete%20len%3A284%20(%2B);Parent=TR15307|c1_g2_i4|g.8158;product=Phosphatidylinositol N-acetylglucosaminyltransferase subunit C
+TR15307|c1_g2_i4	transdecoder	start_codon	109	111	.	+	0	ID=TR15307|c1_g2_i4|m.8158:start;Parent=TR15307|c1_g2_i4|m.8158
+TR15307|c1_g2_i4	transdecoder	exon	1	1039	.	+	0	ID=TR15307|c1_g2_i4|m.8158.exon1;Parent=TR15307|c1_g2_i4|m.8158
+TR15307|c1_g2_i4	transdecoder	stop_codon	958	109	.	+	0	ID=TR15307|c1_g2_i4|m.8158:stop;Parent=TR15307|c1_g2_i4|m.8158
+TR15307|c1_g2_i4	transdecoder	five_prime_UTR	1	108	.	+	0	ID=TR15307|c1_g2_i4|m.8158.utr5p1;Parent=TR15307|c1_g2_i4|m.8158
+TR15307|c1_g2_i4	transdecoder	CDS	109	960	.	+	0	ID=cds.TR15307|c1_g2_i4|m.8158;Parent=TR15307|c1_g2_i4|m.8158
+TR15307|c1_g2_i4	transdecoder	three_prime_UTR	961	1039	.	+	0	ID=TR15307|c1_g2_i4|m.8158.utr3p1;Parent=TR15307|c1_g2_i4|m.8158
+TR14864|c0_g1_i1	transdecoder	gene	1	2857	.	+	0	ID=TR14864|c0_g1_i1|g.6915;Name=GDE1
+TR14864|c0_g1_i1	transdecoder	mRNA	1	2857	.	+	0	ID=TR14864|c0_g1_i1|m.6915;Name=ORF%20TR14864%7Cc0_g1_i1%7Cg.6915%20TR14864%7Cc0_g1_i1%7Cm.6915%20type%3Acomplete%20len%3A341%20(%2B);Parent=TR14864|c0_g1_i1|g.6915;product=Glycerophosphodiester phosphodiesterase 1
+TR14864|c0_g1_i1	transdecoder	start_codon	730	732	.	+	0	ID=TR14864|c0_g1_i1|m.6915:start;Parent=TR14864|c0_g1_i1|m.6915
+TR14864|c0_g1_i1	transdecoder	exon	1	2857	.	+	0	ID=TR14864|c0_g1_i1|m.6915.exon1;Parent=TR14864|c0_g1_i1|m.6915
+TR14864|c0_g1_i1	transdecoder	stop_codon	1750	730	.	+	0	ID=TR14864|c0_g1_i1|m.6915:stop;Parent=TR14864|c0_g1_i1|m.6915
+TR14864|c0_g1_i1	transdecoder	five_prime_UTR	1	729	.	+	0	ID=TR14864|c0_g1_i1|m.6915.utr5p1;Parent=TR14864|c0_g1_i1|m.6915
+TR14864|c0_g1_i1	transdecoder	CDS	730	1752	.	+	0	ID=cds.TR14864|c0_g1_i1|m.6915;Parent=TR14864|c0_g1_i1|m.6915
+TR14864|c0_g1_i1	transdecoder	three_prime_UTR	1753	2857	.	+	0	ID=TR14864|c0_g1_i1|m.6915.utr3p1;Parent=TR14864|c0_g1_i1|m.6915
+TR18535|c2_g1_i7	transdecoder	gene	1	5872	.	+	0	ID=TR18535|c2_g1_i7|g.21768;Name=Mpp5_0
+TR18535|c2_g1_i7	transdecoder	mRNA	1	5872	.	+	0	ID=TR18535|c2_g1_i7|m.21768;Name=ORF%20TR18535%7Cc2_g1_i7%7Cg.21768%20TR18535%7Cc2_g1_i7%7Cm.21768%20type%3Acomplete%20len%3A1206%20(%2B);Parent=TR18535|c2_g1_i7|g.21768;product=MAGUK p55 subfamily member 5
+TR18535|c2_g1_i7	transdecoder	start_codon	1582	1584	.	+	0	ID=TR18535|c2_g1_i7|m.21768:start;Parent=TR18535|c2_g1_i7|m.21768
+TR18535|c2_g1_i7	transdecoder	exon	1	5872	.	+	0	ID=TR18535|c2_g1_i7|m.21768.exon1;Parent=TR18535|c2_g1_i7|m.21768
+TR18535|c2_g1_i7	transdecoder	stop_codon	5197	1582	.	+	0	ID=TR18535|c2_g1_i7|m.21768:stop;Parent=TR18535|c2_g1_i7|m.21768
+TR18535|c2_g1_i7	transdecoder	five_prime_UTR	1	1581	.	+	0	ID=TR18535|c2_g1_i7|m.21768.utr5p1;Parent=TR18535|c2_g1_i7|m.21768
+TR18535|c2_g1_i7	transdecoder	CDS	1582	5199	.	+	0	ID=cds.TR18535|c2_g1_i7|m.21768;Parent=TR18535|c2_g1_i7|m.21768
+TR18535|c2_g1_i7	transdecoder	three_prime_UTR	5200	5872	.	+	0	ID=TR18535|c2_g1_i7|m.21768.utr3p1;Parent=TR18535|c2_g1_i7|m.21768
+TR19040|c0_g1_i5	transdecoder	gene	1	1923	.	+	0	ID=TR19040|c0_g1_i5|g.25074;Name=RECQL5_2
+TR19040|c0_g1_i5	transdecoder	mRNA	1	1923	.	+	0	ID=TR19040|c0_g1_i5|m.25074;Name=ORF%20TR19040%7Cc0_g1_i5%7Cg.25074%20TR19040%7Cc0_g1_i5%7Cm.25074%20type%3A3prime_partial%20len%3A532%20(%2B);Parent=TR19040|c0_g1_i5|g.25074;product=ATP-dependent DNA helicase Q5
+TR19040|c0_g1_i5	transdecoder	start_codon	331	333	.	+	0	ID=TR19040|c0_g1_i5|m.25074:start;Parent=TR19040|c0_g1_i5|m.25074
+TR19040|c0_g1_i5	transdecoder	exon	1	1923	.	+	0	ID=TR19040|c0_g1_i5|m.25074.exon1;Parent=TR19040|c0_g1_i5|m.25074
+TR19040|c0_g1_i5	transdecoder	CDS	331	1923	.	+	0	ID=cds.TR19040|c0_g1_i5|m.25074;Parent=TR19040|c0_g1_i5|m.25074
+TR19040|c0_g1_i5	transdecoder	five_prime_UTR	1	330	.	+	0	ID=TR19040|c0_g1_i5|m.25074.utr5p1;Parent=TR19040|c0_g1_i5|m.25074
+TR15187|c0_g1_i3	transdecoder	gene	1	1296	.	+	0	ID=TR15187|c0_g1_i3|g.7889;Name=CWC25_2
+TR15187|c0_g1_i3	transdecoder	mRNA	1	1296	.	+	0	ID=TR15187|c0_g1_i3|m.7889;Name=ORF%20TR15187%7Cc0_g1_i3%7Cg.7889%20TR15187%7Cc0_g1_i3%7Cm.7889%20type%3Ainternal%20len%3A432%20(%2B);Parent=TR15187|c0_g1_i3|g.7889;product=Pre-mRNA-splicing factor CWC25 homolog
+TR15187|c0_g1_i3	transdecoder	exon	1	1296	.	+	0	ID=TR15187|c0_g1_i3|m.7889.exon1;Parent=TR15187|c0_g1_i3|m.7889
+TR15187|c0_g1_i3	transdecoder	CDS	1	1296	.	+	2	ID=cds.TR15187|c0_g1_i3|m.7889;Parent=TR15187|c0_g1_i3|m.7889
