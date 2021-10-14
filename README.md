@@ -27,9 +27,13 @@
 
 ## Julian to-do list:
 remove hyphy2 files
+
 remove tapir/hyphy2 components of env building scripts
+		
 		ARE THERE OTHER MODULES IN THE MAIN ENV THAT ARE ONLY USED BY TAPIR? ugg, that might be apain to figure out...
+		
 		Figure out env issues 
+
 remove stuff for HiMAP_2.0_modulefile, since we're not using that now??
 
 Create a "run_himap" script with logging (e.g. "step01 is complete"")
