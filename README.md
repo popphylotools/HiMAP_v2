@@ -5,42 +5,43 @@
 2. unzip HiMAP2_master.zip
 3. rename HiMAP2_master to HiMAP2
 4. cd HiMAP2
-5. create conda environment using bash script for linux or mac os
-	 We don't really need this anymore if we add orthofinder (with version) to the environment.yml file, as that'll load mafft
+5. create conda environment using bash script for linux or mac os (alternatively environment can be created manually: conda env create -f environment.yml)
 6. activate environment
    conda activate himap2
 7. Set up directory system by running 
    ./bin/00_initilize_working_dir.py
-8. Upload fasta files to "./data/fasta" directory
-   Upload gff files to "./data/gff" directory
+8. Upload fasta files to "./data/00_fasta" directory
+   Upload gff files to "./data/00_gff" directory
    Names of taxa should begin with the Annotation source name (e.g. NCBI, GeMoMa); these annotation sources should also be specified in the configuration file
-   Sample input data files are provided in the "input" directory
+   Sample input data files are provided in the "toy_data" directory
 8. Create gff data bases, extract CDS, select longest isoform, and prepare amino acid sequences for Orthofinder
    ./bin/01_sequence_extraction.py
-9. Find orthogroups by running Orthofinder (input - amino acid sequences in the "./data/pep_fasta" directory; output - Orthogroups.tsv file in "./data/orthofinder" directory as well as all other output data file from Orthofinder run (./data/orthofinder/Orthofinder).
+9. Find orthogroups by running Orthofinder (input - amino acid sequences in the "./data/01_pep_fasta" directory; output - Orthogroups.tsv file in "./data/02_03_orthofinder" directory as well as all other output data file from Orthofinder run (./data/orthofinder/Orthofinder).
    ./bin/02_orthofinder.py
-10. Select orthogroups to keep based on the specifications in the config file (single copy orthologs, number of copies for core, supplementary, and outgroup)(input - "Orthogroups.tsv" file in "./data/orthofinder"; output - "./data/orthofinder/keep_orthos.csv")
+10. Select orthogroups to keep based on the specifications in the config file (single copy orthologs, number of copies for core, supplementary, and outgroup)(input - "Orthogroups.tsv" file in "./data/02_03_orthofinder"; output - "./data/02_03_orthofinder/keep_orthos.csv")
     ./bin/03_ortho_selection.py
-11. Create and align padded exons, raw exons, and final filtered exons using settings specified in the configuration file (output - padded exons are in "./data/core_alignment"; raw exons are in "./data/supplementary_alignment"; filtered exons - "./data/ortho_cds_component"):
+11. Create and align padded exons, raw exons, and final filtered exons using settings specified in the configuration file (output - padded exons are in "./data/04a_core_alignment"; raw exons are in "./data/04b_supplementary_alignment"; filtered exons - "./data/04c_final_exons"):
     ./bin/04_alignments_and_filtering.py
-12. Final output from this part of the pipeline is in "./data/ortho_cds_component".
+12. Final output from this part of the pipeline is in "./data/04c_final_exons".
 
 ## Julian to-do list:
-remove hyphy2 files
+<strike>remove hyphy2 files</strike> DONE
 
-remove tapir/hyphy2 components of env building scripts
+<strike>remove tapir/hyphy2 components of env building scripts</strike> DONE
 		
-		ARE THERE OTHER MODULES IN THE MAIN ENV THAT ARE ONLY USED BY TAPIR? ugg, that might be apain to figure out...
+ARE THERE OTHER MODULES IN THE MAIN ENV THAT ARE ONLY USED BY TAPIR? ugg, that might be apain to figure out...
 		
-		Figure out env issues 
+<strike>Figure out env issues</strike> 
 
-remove stuff for HiMAP_2.0_modulefile, since we're not using that now??
+<strike>remove stuff for HiMAP_2.0_modulefile, since we're not using that now??</strike>
 
-Create a "run_himap" script with logging (e.g. "step01 is complete"")
+<strike>Create a "run_himap" script with logging (e.g. "step01 is complete"")</strike>
+	Do we want to have a single run file that will initiate the whole pipeline/selected steps?
 
-Rename the data dirs (ortho_cds_component)
+<strike>Rename the data dirs (ortho_cds_component)</strike>
 
-multithreading for mafft-like stuff
+<strike>multithreading for mafft-like stuff</strike>
+	mafft stuff is multithreading but within a single node; may want to convert this to mpi later
 
 
 
