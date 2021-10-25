@@ -27,6 +27,8 @@ def main():
     out_dir = os.path.join(tsv_dir, "Orthofinder")
     
     himap.external_software.orthofind_driver_dir(pep_fasta_dir, out_dir, tsv_dir)
+    
+    print("Step_02 is complete\nOrthofinder results are written to ", out_dir)
 
 
 # run main
