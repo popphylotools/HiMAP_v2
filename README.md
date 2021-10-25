@@ -31,17 +31,15 @@
 		
 ARE THERE OTHER MODULES IN THE MAIN ENV THAT ARE ONLY USED BY TAPIR? ugg, that might be apain to figure out...
 		
-<strike>Figure out env issues</strike> 
+<strike>Figure out env issues</strike> DONE
 
-<strike>remove stuff for HiMAP_2.0_modulefile, since we're not using that now??</strike>
+<strike>remove stuff for HiMAP_2.0_modulefile, since we're not using that now??</strike> DONE
 
-<strike>Create a "run_himap" script with logging (e.g. "step01 is complete"")</strike>
-	Do we want to have a single run file that will initiate the whole pipeline/selected steps?
+<strike>Create a "run_himap" script with logging (e.g. "step01 is complete"")</strike> DONE? Do we want to have a single run file that will initiate the whole pipeline/selected steps?
 
 <strike>Rename the data dirs (ortho_cds_component)</strike>
 
-<strike>multithreading for mafft-like stuff</strike>
-	mafft stuff is multithreading but within a single node; may want to convert this to mpi later
+<strike>multithreading for mafft-like stuff</strike> DONE? mafft stuff is multithreading but within a single node; may want to convert this to mpi later
 
 
 
