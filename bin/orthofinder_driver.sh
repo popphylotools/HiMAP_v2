@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-eval "$(conda shell.bash hook)"
-conda activate orthofinder
 
 IN_DIR=${1}
 OUT_DIR=${2}
