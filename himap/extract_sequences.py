@@ -60,13 +60,12 @@ def driver(gff_fn, fasta_fn, path, sp):
     selected_isos = select_isoforms(sp, db, group_by, rank_isos_by_len_and_id)
     key_list, gff_groups, n_seqRecs, p_seqRecs = prep_output(sp, selected_isos, db, fasta_fn, dtype)
 
-    write_gff(os.path.join(path, "simple_gff", sp + ".gff"), key_list, gff_groups)
-    write_nuc_fasta(os.path.join(path, "nuc_fasta", sp + ".fasta"), key_list, n_seqRecs)
-    write_pep_fasta(os.path.join(path, "pep_fasta", sp + ".fasta"), key_list, p_seqRecs)
-
+    write_gff(os.path.join(path, "01_simple_gff", sp + ".gff"), key_list, gff_groups)
+    write_nuc_fasta(os.path.join(path, "01_nuc_fasta", sp + ".fasta"), key_list, n_seqRecs)
+    write_pep_fasta(os.path.join(path, "01_pep_fasta", sp + ".fasta"), key_list, p_seqRecs)
 
 def create_db(gff_fn, sp):
-    fn = os.path.join("data", "gff_db", sp + ".db")
+    fn = os.path.join("data", "01_gff_db", sp + ".db")
     if os.path.isfile(fn):
         db = gffutils.FeatureDB(fn, keep_order=True)
     else:
