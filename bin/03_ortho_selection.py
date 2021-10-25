@@ -131,7 +131,7 @@ def main():
                                        max_copies_count=supplemental_max_copies_count)
 
     ortho_selection(tsv_dir, core_fuzzy, outgroup_fuzzy, supplemental_fuzzy, core_sp_list, outgroup_sp_list, supplemental_sp_list)
-
+    print("Step_03 is complete\nResults are written to ", os.path.join(tsv_dir, "keep_orthos.csv"))
 # run main
 try:
     exit(main())
