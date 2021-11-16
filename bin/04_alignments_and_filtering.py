@@ -51,7 +51,7 @@ log = logging.getLogger(os.path.basename(__file__))
 # define functions to parse coordinates of cds's from concatinated aligned fasta w/ n's and -'s
 
 def findBreakpoints(seq):
-    n_count = 50
+    n_count = config["Settings"].getint("n_gap")
     breakpoints = []
     loc = 0
     regex = re.compile(r"n+[-+n]*")
@@ -129,6 +129,7 @@ def prep_output(sp, iso_id, db, fasta, n_gap):
     return SeqRecord(n_seq[frame:], id=sp, description="")
 
 #melt ortho db to assign identifiers 
+
 def maft_core_prep(gff_db_dict, fasta_dict, working_dir, tsv_dir, core_align_dir, add_outgroup_in_core_align,
                    core_sp_set, outgroup_sp_set, n_gap):
 
