@@ -48,10 +48,10 @@ root.setLevel(os.environ.get("LOGLEVEL", "DEBUG"))
 root.addHandler(handler)
 log = logging.getLogger(os.path.basename(__file__))
 
-# define functions to parse coordinates of cds's from concatinated aligned fasta w/ n's and -'s
 
-def findBreakpoints(seq):
-    n_count = config["Settings"].getint("n_gap")
+# define functions to parse coordinates of cds's from concatinated aligned fasta w/ n's and -'s
+def findBreakpoints(seq, n_gap):
+    n_count = n_gap
     breakpoints = []
     loc = 0
     regex = re.compile(r"n+[-+n]*")
@@ -66,8 +66,8 @@ def findBreakpoints(seq):
     return breakpoints
 
 
-def findExonCoords(seq):
-    breakpoints = findBreakpoints(seq)
+def findExonCoords(seq, n_gap):
+    breakpoints = findBreakpoints(seq, n_gap)
     length = len(seq)
 
     if len(breakpoints) == 0:
@@ -281,7 +281,7 @@ def maft_core_post_and_supp_prep(gff_db_dict, fasta_dict, working_dir, core_alig
 #####################
 
 
-def maft_supp_post(enhanced_alignment_path, final_exon_dir, core_species_list, min_exon_length, max_gap_percent, max_gap_length, min_num_sp):
+def maft_supp_post(enhanced_alignment_path, final_exon_dir, core_species_list, min_exon_length, max_gap_percent, max_gap_length, min_num_sp, n_gap):
     # create handles for all .fasta files in aligned_full_fasta directory
     aligned_fasta_fn = {name.split('.fasta')[0]: os.path.join(enhanced_alignment_path, name) for name in
                         os.listdir(enhanced_alignment_path) if
@@ -300,7 +300,7 @@ def maft_supp_post(enhanced_alignment_path, final_exon_dir, core_species_list, m
         coords[ortho] = {}
         for sp in core_species_list:
             seq = str(aligned_fasta[ortho][sp].seq)
-            core_coords = findExonCoords(str(aligned_fasta[ortho][sp].seq))
+            core_coords = findExonCoords(str(aligned_fasta[ortho][sp].seq), n_gap)
             for start, end in core_coords:
                 cds = seq[start:end]
                 if len(cds) != cds.count('-'):
@@ -462,7 +462,7 @@ def main():
 
     himap.external_software.supplemental_mafft_driver_path(sup_align_dir)
 
-    maft_supp_post(sup_align_dir, final_exon_dir, core_sp_list, min_exon_length, max_gap_percent, max_gap_length, min_num_sp)
+    maft_supp_post(sup_align_dir, final_exon_dir, core_sp_list, min_exon_length, max_gap_percent, max_gap_length, min_num_sp, n_gap)
     
     print("Step_04 is complete\nPadded exons are written to: ", core_align_dir, "\n", len(os.listdir(sup_align_dir)), "Raw exons are written to: ", sup_align_dir, "\n", len(os.listdir(final_exon_dir)), "Final filtered exons are written to: ", final_exon_dir)
 
