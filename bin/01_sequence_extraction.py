@@ -21,6 +21,13 @@ def main():
     config.read(args.configPath)
 
     dtype_list = config["Annotation"]["source"].split()
+    
+    # remove old files
+    out_dirs = [config["Paths"]["gff_db_dir"], config["Paths"]["simple_gff_dir"], config["Paths"]["pep_fasta_dir"], config["Paths"]["nuc_fasta_dir"]]
+    for dir in out_dirs:
+        rm_files = [os.path.join(dir, file) for file in os.listdir(dir)]
+        for file in rm_files:
+            os.remove(file)
 
     input_dict = dict()
     for dtype in dtype_list:
