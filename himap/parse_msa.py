@@ -4,7 +4,7 @@
 
 import re
 
-from context import himap, project_dir
+from context import himap, project_dir, n_gap
 from himap import consensus
 
 
