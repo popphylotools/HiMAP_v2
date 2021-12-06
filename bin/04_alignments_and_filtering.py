@@ -13,7 +13,7 @@ from Bio.Seq import Seq
 from pyfaidx import Fasta
 import logging
 import configparser
-from context import himap, project_dir
+from context import himap, project_dir, n_gap
 
 from himap import external_software
 from himap import consensus
@@ -422,8 +422,14 @@ def main():
     final_exon_dir = config["Paths"]["final_exon_dir"]
     os.makedirs(final_exon_dir, exist_ok=True)
 
+    # remove old files
+    out_dirs = [core_align_dir, sup_align_dir, final_exon_dir]
+    for dir in out_dirs:
+        rm_files = [os.path.join(dir, file) for file in os.listdir(dir)]
+        for file in rm_files:
+            os.remove(file)
+
     # settings
-    n_gap = config["Settings"].getint("n_gap")
     min_exon_length = config["Settings"].getint("min_exon_length")
     max_gap_percent = config["Settings"].getint("max_gap_percent")
     max_gap_length = config["Settings"].getint("max_gap_length")
