@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
 """"""
-#align mafft
-#raxml model
-#raxml-ng
-
 import os,argparse,sys
 import logging
 import configparser
@@ -13,11 +9,10 @@ import itertools
 import subprocess
 from Bio import SeqIO
 
-
-#parser=MyParser()
 parser = argparse.ArgumentParser()
 parser.add_argument('--configPath', help='configPath', default='./config.ini')
 args = parser.parse_args()
+
 # load parameters from config file
 config = configparser.ConfigParser()
 config.read(args.configPath)
@@ -106,9 +101,6 @@ def modeltest_ng(infile,selector_criterion="BIC"):
 				model = list_lines[1]
 				break
 	
-	#Cleaning steps
-	#
-	#
 	return model
 
 #phylogeny inference using raxml-ng
