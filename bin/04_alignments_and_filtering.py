@@ -335,10 +335,13 @@ def maft_supp_post(enhanced_alignment_path, final_exon_dir, core_species_list, m
 
             # filter for gap percent
             seq = str(aligned_fasta[ortho][sp].seq[start:end])
-            if gapPercent(seq) > max_gap_percent or longestGap(seq) > max_gap_length:
+            if gapPercent(seq) > max_gap_percent and longestGap(seq) > max_gap_length:
                 continue
 
-           
+            # filter for gap length
+            #if longestGap(seq) > max_gap_length:
+                #continue
+
             # prep to filter for species membership of ortho
             if coord not in ortho_coords[ortho].keys():
                 ortho_coords[ortho][coord] = set()
@@ -376,7 +379,7 @@ def maft_supp_post(enhanced_alignment_path, final_exon_dir, core_species_list, m
 
     for ortho in fasta_prep:
         fasta_prep[ortho] = [seqReq for seqReq in fasta_prep[ortho] if
-                             (gapPercent(seqReq.seq) <= max_gap_percent) or (
+                             (gapPercent(seqReq.seq) <= max_gap_percent) and (
                                  longestGap(seqReq.seq) <= max_gap_length)]
 
     fasta_prep = {ortho: seq_list for ortho, seq_list in fasta_prep.items() if len(seq_list) >= min_num_sp}
