@@ -22,102 +22,55 @@ def longest_gap(seq):
     if gap_list:
         return sorted([len(gap) for gap in gap_list], reverse=True)[0]
     else:
-        return 0
+
+        return int(iso.frame)
 
 
-def find_exon_spans(seq, intron_spans):
-    length = len(seq)
+def driver(gff_fn, fasta_fn, path, sp):
+    dtype = sp.split("_")[0]
+    group_by = group_by_funcs[dtype]
+    db = create_db(gff_fn, sp)
+    selected_isos = select_isoforms(sp, db, group_by, rank_isos_by_len_and_id)
+    key_list, gff_groups, n_seqRecs, p_seqRecs = prep_output(sp, selected_isos, db, fasta_fn, dtype)
 
-    if len(intron_spans) == 0:
-        return [(0, length)]
+    write_gff(os.path.join(path, "01_simple_gff", sp + ".gff"), key_list, gff_groups)
+    write_nuc_fasta(os.path.join(path, "01_nuc_fasta", sp + ".fasta"), key_list, n_seqRecs)
+    write_pep_fasta(os.path.join(path, "01_pep_fasta", sp + ".fasta"), key_list, p_seqRecs)
 
-    elif len(intron_spans) == 1:
-        bp = intron_spans[0]
-        return [(0, bp[0]), (bp[1], length)]
-
-    elif len(intron_spans) > 1:
-        exonCoords = [(0, intron_spans[0][0])]  # first exon
-
-        for i in list(range(len(intron_spans) + 1))[1:-1]:  # all intermediate exons
-            ex_start = intron_spans[i - 1][1]
-            ex_end = intron_spans[i][0]
-            exonCoords.append((ex_start, ex_end))
-
-        exonCoords.append((intron_spans[-1][1], length))  # last exon
-        return exonCoords
-
-
-def universal_exon_spans(seq_dict, n_gap, min_exon_length, max_gap_percent, max_gap_length):
-    re_no_end_gaps = re.compile(r"n[-n]*n[-n]n*")
-    re_end_gaps = re.compile(r"[-n]*n[-n]*")
-
-    # parse the set of canidate exon endpoints which are conserved
-    sp_canidate_endpoints = {}
-    for sp, seq in seq_dict.items():
-        sp_canidate_endpoints[sp] = set()
-        loc = 0
-        while True:
-            match_no_end_gaps = re_no_end_gaps.search(str(seq.seq), loc)
-            match_end_gaps = re_end_gaps.search(str(seq.seq), loc)
-            if not (match_no_end_gaps and match_end_gaps):
-                break
-            if (len(match_no_end_gaps.group().replace('-', '')) >= n_gap and
-                   len(match_end_gaps.group().replace('-', '')) >= n_gap):
-                sp_canidate_endpoints[sp].add(match_no_end_gaps.start())
-                sp_canidate_endpoints[sp].add(match_no_end_gaps.end())
-                sp_canidate_endpoints[sp].add(match_end_gaps.start())
-                sp_canidate_endpoints[sp].add(match_end_gaps.end())
-            loc = match_no_end_gaps.end()
-    universal_canidate_endpoints = set.intersection(*sp_canidate_endpoints.values())
-    # universal_canidate_endpoints
-
-    sp_intron_spans = {}
-    for sp, seq in seq_dict.items():
-        sp_intron_spans[sp] = []
-        loc = 0
-        while True:
-            match_no_end_gaps = re_no_end_gaps.search(str(seq.seq), loc)
-            match_end_gaps = re_end_gaps.search(str(seq.seq), loc)
-            if not (match_no_end_gaps and match_end_gaps):
-                break
-            if (len(match_no_end_gaps.group().replace('-', '')) >= n_gap and
-                   len(match_end_gaps.group().replace('-', '')) >= n_gap):
-
-                start_set = {match_no_end_gaps.start(), match_end_gaps.start()} & universal_canidate_endpoints
-                end_set = {match_no_end_gaps.end(), match_end_gaps.end()} & universal_canidate_endpoints
-
-                if len(start_set) == 0:
-                    start = match_no_end_gaps.start()  # no start in universal_canidate_endpoints, be conservative
-                else:
-                    start = sorted(start_set)[0]  # first start in universal_canidate_endpoints
-
-                if len(end_set) == 0:
-                    end = match_no_end_gaps.end()  # no end in universal_canidate_endpoints, be conservative
-                else:
-                    end = sorted(end_set)[-1]  # last end in universal_canidate_endpoints
-                                    
-                sp_intron_spans[sp].append((start, end))
-
-            loc = match_no_end_gaps.end()
-
-    #sp_intron_spans
-
-    sp_exon_spans = {}
-    for sp,seq in seq_dict.items():
-        sp_exon_spans[sp] = find_exon_spans(seq, sp_intron_spans[sp])
+def create_db(gff_fn, sp):
+    fn = os.path.join("data", "01_gff_db", sp + ".db")
+    if os.path.isfile(fn):
+        db = gffutils.FeatureDB(fn, keep_order=True)
+    else:
+        db = gffutils.create_db(data=gff_fn,
+                                dbfn=fn,
+                                force=True,
+                                merge_strategy='merge',
+                                id_spec=['ID', 'Name'])
+    return db
 
 
-    universal_exon_spans = sorted(set.intersection(*[set(lis) for lis in sp_exon_spans.values()]), key=lambda x: x[0])
-    #universal_exon_spans
+def get_cds_parents(db, level=1):
+    cds_list = list(db.features_of_type(featuretype='CDS'))
+    parents = set()
+    for cds in cds_list:
+        parents.update(db.parents(cds, level=level))
+    parents = sorted(list(parents), key=lambda p: (p.seqid, p.start, p.id))
+    return parents
 
-    # filter
-    filtered_universal_exon_spans = []
-    for start,end in universal_exon_spans:
-        seq_list = [str(seq_dict[sp].seq[start:end]) for sp in seq_dict]
-        consensus = himap.consensus.degenerate_consensus(seq_list).strip("-")
 
-        # filter for length
-        if len(consensus) < min_exon_length:
+def select_isoforms(sp, db, group_by, rank_by):
+    iso_groups = dict()
+    selected_isos = dict()
+
+    # group with group_by function
+    for iso in get_cds_parents(db, level=1):
+        try:
+            group_key = group_by(iso)
+        except KeyError as e:
+            message = "KeyError - sp:{} - key:{} - error:{}".format(sp, iso.attributes["ID"], e)
+            log.debug(message)
+
             continue
 
         # filter for gap percent

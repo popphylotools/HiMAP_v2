@@ -21,13 +21,20 @@ def main():
     config.read(args.configPath)
 
     dtype_list = config["Annotation"]["source"].split()
+    
+    # remove old files
+    out_dirs = [config["Paths"]["gff_db_dir"], config["Paths"]["simple_gff_dir"], config["Paths"]["pep_fasta_dir"], config["Paths"]["nuc_fasta_dir"]]
+    for dir in out_dirs:
+        rm_files = [os.path.join(dir, file) for file in os.listdir(dir)]
+        for file in rm_files:
+            os.remove(file)
 
     input_dict = dict()
     for dtype in dtype_list:
         path = config["Paths"]["working_dir"]
-        for sp in [fn.rstrip(".gff") for fn in os.listdir(os.path.join(path, "gff"))]:
-            gff_fn = os.path.join(path, "gff", sp + ".gff")
-            fasta_fn = os.path.join(path, "fasta", sp + ".fasta")
+        for sp in [fn.rstrip(".gff") for fn in os.listdir(os.path.join(path, "00_gff"))]:
+            gff_fn = os.path.join(path, "00_gff", sp + ".gff")
+            fasta_fn = os.path.join(path, "00_fasta", sp + ".fasta")
             input_dict[sp] = (gff_fn, fasta_fn, path, sp)
 
 
@@ -35,7 +42,8 @@ def main():
     with mp.Pool(cpus) as p:
         p.starmap(himap.extract_sequences.driver, list(input_dict.values()))
 
-
+    print("Step_01 is complete\nProcessed ", len(input_dict), " input fasta/gff files")
+    
 # run main
 try:
     exit(main())

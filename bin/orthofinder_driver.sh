@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-eval "$(conda shell.bash hook)"
-conda activate orthofinder
 
 IN_DIR=${1}
 OUT_DIR=${2}
 CSV_DIR=${3}
+
+rm -r ${CSV_DIR}/*
 
 orthofinder -f ${IN_DIR} -o ${OUT_DIR}
 

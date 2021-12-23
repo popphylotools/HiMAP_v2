@@ -13,7 +13,7 @@ from Bio.Seq import Seq
 from pyfaidx import Fasta
 import logging
 import configparser
-from context import himap, project_dir
+from context import himap, project_dir, n_gap
 
 from himap import external_software
 from himap import consensus
@@ -48,10 +48,10 @@ root.setLevel(os.environ.get("LOGLEVEL", "DEBUG"))
 root.addHandler(handler)
 log = logging.getLogger(os.path.basename(__file__))
 
-# define functions to parse coordinates of cds's from concatinated aligned fasta w/ n's and -'s
 
-def findBreakpoints(seq):
-    n_count = 50
+# define functions to parse coordinates of cds's from concatinated aligned fasta w/ n's and -'s
+def findBreakpoints(seq, n_gap):
+    n_count = n_gap
     breakpoints = []
     loc = 0
     regex = re.compile(r"n+[-+n]*")
@@ -66,8 +66,8 @@ def findBreakpoints(seq):
     return breakpoints
 
 
-def findExonCoords(seq):
-    breakpoints = findBreakpoints(seq)
+def findExonCoords(seq, n_gap):
+    breakpoints = findBreakpoints(seq, n_gap)
     length = len(seq)
 
     if len(breakpoints) == 0:
@@ -129,6 +129,7 @@ def prep_output(sp, iso_id, db, fasta, n_gap):
     return SeqRecord(n_seq[frame:], id=sp, description="")
 
 #melt ortho db to assign identifiers 
+
 def maft_core_prep(gff_db_dict, fasta_dict, working_dir, tsv_dir, core_align_dir, add_outgroup_in_core_align,
                    core_sp_set, outgroup_sp_set, n_gap):
 
@@ -280,7 +281,7 @@ def maft_core_post_and_supp_prep(gff_db_dict, fasta_dict, working_dir, core_alig
 #####################
 
 
-def maft_supp_post(enhanced_alignment_path, ortho_cds_component_dir, core_species_list, min_exon_length, max_gap_percent, max_gap_length, min_num_sp):
+def maft_supp_post(enhanced_alignment_path, final_exon_dir, core_species_list, min_exon_length, max_gap_percent, max_gap_length, min_num_sp, n_gap):
     # create handles for all .fasta files in aligned_full_fasta directory
     aligned_fasta_fn = {name.split('.fasta')[0]: os.path.join(enhanced_alignment_path, name) for name in
                         os.listdir(enhanced_alignment_path) if
@@ -299,7 +300,7 @@ def maft_supp_post(enhanced_alignment_path, ortho_cds_component_dir, core_specie
         coords[ortho] = {}
         for sp in core_species_list:
             seq = str(aligned_fasta[ortho][sp].seq)
-            core_coords = findExonCoords(str(aligned_fasta[ortho][sp].seq))
+            core_coords = findExonCoords(str(aligned_fasta[ortho][sp].seq), n_gap)
             for start, end in core_coords:
                 cds = seq[start:end]
                 if len(cds) != cds.count('-'):
@@ -334,12 +335,12 @@ def maft_supp_post(enhanced_alignment_path, ortho_cds_component_dir, core_specie
 
             # filter for gap percent
             seq = str(aligned_fasta[ortho][sp].seq[start:end])
-            if gapPercent(seq) > max_gap_percent:
+            if gapPercent(seq) > max_gap_percent and longestGap(seq) > max_gap_length:
                 continue
 
             # filter for gap length
-            if longestGap(seq) > max_gap_length:
-                continue
+            #if longestGap(seq) > max_gap_length:
+                #continue
 
             # prep to filter for species membership of ortho
             if coord not in ortho_coords[ortho].keys():
@@ -384,10 +385,10 @@ def maft_supp_post(enhanced_alignment_path, ortho_cds_component_dir, core_specie
     fasta_prep = {ortho: seq_list for ortho, seq_list in fasta_prep.items() if len(seq_list) >= min_num_sp}
 
     # fasta output
-    shutil.rmtree(ortho_cds_component_dir, ignore_errors=True)
-    os.makedirs(ortho_cds_component_dir, exist_ok=True)
+    shutil.rmtree(final_exon_dir, ignore_errors=True)
+    os.makedirs(final_exon_dir, exist_ok=True)
     for ortho in fasta_prep:
-        filename = os.path.join(ortho_cds_component_dir, ortho + ".fasta")
+        filename = os.path.join(final_exon_dir, ortho + ".fasta")
         with open(filename, "w") as f:
             for seq_req in fasta_prep[ortho]:
                 f.write(seq_req.format("fasta"))
@@ -418,11 +419,17 @@ def main():
     sup_align_dir = config["Paths"]["sup_align_dir"]
     os.makedirs(sup_align_dir, exist_ok=True)
 
-    ortho_cds_component_dir = config["Paths"]["ortho_cds_component_dir"]
-    os.makedirs(ortho_cds_component_dir, exist_ok=True)
+    final_exon_dir = config["Paths"]["final_exon_dir"]
+    os.makedirs(final_exon_dir, exist_ok=True)
+
+    # remove old files
+    out_dirs = [core_align_dir, sup_align_dir, final_exon_dir]
+    for dir in out_dirs:
+        rm_files = [os.path.join(dir, file) for file in os.listdir(dir)]
+        for file in rm_files:
+            os.remove(file)
 
     # settings
-    n_gap = config["Settings"].getint("n_gap")
     min_exon_length = config["Settings"].getint("min_exon_length")
     max_gap_percent = config["Settings"].getint("max_gap_percent")
     max_gap_length = config["Settings"].getint("max_gap_length")
@@ -461,8 +468,9 @@ def main():
 
     himap.external_software.supplemental_mafft_driver_path(sup_align_dir)
 
-    maft_supp_post(sup_align_dir, ortho_cds_component_dir, core_sp_list, min_exon_length, max_gap_percent, max_gap_length, min_num_sp)
-
+    maft_supp_post(sup_align_dir, final_exon_dir, core_sp_list, min_exon_length, max_gap_percent, max_gap_length, min_num_sp, n_gap)
+    
+    print("Step_04 is complete\nPadded exons are written to: ", core_align_dir, "\n", len(os.listdir(sup_align_dir)), "Raw exons are written to: ", sup_align_dir, "\n", len(os.listdir(final_exon_dir)), "Final filtered exons are written to: ", final_exon_dir)
 
 # run main
 try:

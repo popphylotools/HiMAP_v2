@@ -2,13 +2,16 @@ name: himap2
 channels:
 - ioam
 - defaults
+- bioconda
+- biocore
 dependencies:
 - holoviews
 - bokeh
-- pandas
-- biopython
-
+- pandas=1.3.3
+- biopython=1.78
 - sqlite
+- mafft=7.487
+- orthofinder=2.5.4
 - pip:
   - gffutils==0.9
   - pyfaidx==0.5.0
