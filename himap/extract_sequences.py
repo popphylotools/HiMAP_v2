@@ -1,55 +1,28 @@
 #!/usr/bin/env python
 # coding=utf-8
 """"""
-import logging
-import os
 
-import Bio
-import gffutils
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
-from pyfaidx import Fasta
+import re
 
-log = logging.getLogger("extract_sequences.py")
+from context import himap, project_dir
+from himap import consensus
 
 
-def group_gemoma(iso):
-    key = "_".join(iso.attributes["ID"][0].split("_")[:2])
-    return key
+def gap_percent(seq):
+    seq = str(seq)
+    gappedLen = len(seq)
+    gapCount = seq.count('-')
+    return (100.0 * gapCount) / gappedLen
 
 
-def group_ncbi(iso):
-    key = iso.attributes["Parent"][0]
-    return key
-
-
-def group_new_rnaseq(iso):
-    key = iso.attributes["Parent"][0]
-    return key
-
-
-def group_old_rnaseq(iso):
-    key = iso.attributes["ID"][0].split("::")[0]
-    return key
-
-
-group_by_funcs = {
-    "GeMoMa": group_gemoma,
-    "NCBI": group_ncbi,
-    "TrinityOldRNAseq": group_old_rnaseq,
-    "TrinityNewRNAseq": group_new_rnaseq,
-}
-
-
-def rank_isos_by_len_and_id(iso, db):
-    iso_len = db.children_bp(iso, child_featuretype='CDS', merge=False, ignore_strand=False)
-    return -iso_len, iso.attributes["ID"]
-
-
-def get_frame(iso, dtype):
-    if iso.frame == ".":
-        return 0
+def longest_gap(seq):
+    seq = str(seq)
+    gap_regex = re.compile(r"-+")
+    gap_list = gap_regex.findall(seq)
+    if gap_list:
+        return sorted([len(gap) for gap in gap_list], reverse=True)[0]
     else:
+
         return int(iso.frame)
 
 
@@ -97,100 +70,16 @@ def select_isoforms(sp, db, group_by, rank_by):
         except KeyError as e:
             message = "KeyError - sp:{} - key:{} - error:{}".format(sp, iso.attributes["ID"], e)
             log.debug(message)
-            continue
-        if group_key not in iso_groups:
-            iso_groups[group_key] = []
-        iso_groups[group_key].append(iso)
 
-    # sort groups with rank_by function and select first from each group
-    for iso_list in iso_groups.values():
-        iso = sorted(iso_list, key=lambda iso: rank_by(iso, db))[0]
-        selected_isos[iso.attributes["ID"][0]] = iso
-
-    return selected_isos
-
-
-def prep_output(sp, selected_isos, db, fasta_path, dtype):
-    fasta = Fasta(fasta_path)
-
-    key_list = []
-    gff_groups = dict()
-    n_seqRecs = dict()
-    p_seqRecs = dict()
-
-    key_sort = dict()
-
-    for key, iso in selected_isos.items():
-        cds_list = list(db.children(iso, order_by="start", featuretype="CDS"))
-        try:
-            n_seq = Seq("".join([c.sequence(fasta, use_strand=False) for c in cds_list]))
-        except KeyError as e:
-            message = "KeyError - sp:{} - key:{} - error:{}".format(sp, key, e)
-            log.debug(message)
-            continue
-        except ValueError as e:
-            message = "ValueError - sp:{} - key:{} - error:{}".format(sp, key, e)
-            log.debug(message)
-            continue
-        if n_seq is "":
-            message = "Excluding - sp:{} - key:{} - n_seq is empty".format(sp, key)
-            log.debug(message)
-            continue
-        if iso.strand == "-":
-            n_seq = n_seq.reverse_complement()
-            frame = get_frame(cds_list[-1], dtype)
-        else:
-            frame = get_frame(cds_list[0], dtype)
-
-        trans_n_seq = n_seq[frame:]  # the portion of n_seq to translate
-        pad = (3 - (len(trans_n_seq) % 3)) % 3
-        if pad != 0:
-            trans_n_seq += "N" * pad
-        try:
-            p_seq = trans_n_seq.translate()
-        except Bio.Data.CodonTable.TranslationError as e:
-            message = "TranslationError - sp:{} - key:{} - error:{}".format(sp, key, e)
-            log.debug(message)
-            continue
-        if "*" in p_seq[:-1]:
-            message = "Excluding - sp:{} - key:{} - internal stop codon".format(sp, key)
-            log.debug(message)
-            continue
-        if len(p_seq) == 0:
-            message = "Excluding - sp:{} - key:{} - p_seq is empty".format(sp, key)
-            log.debug(message)
             continue
 
-        key_sort[key] = (iso.seqid, iso.start)
+        # filter for gap percent
+        if gap_percent(consensus) > max_gap_percent:
+            continue
 
-        key_list.append(key)
-        n_seqRecs[key] = SeqRecord(n_seq, id=key, description="")
-        p_seqRecs[key] = SeqRecord(p_seq, id=key, description="")
-        gff_groups[key] = list(db.parents(iso, level=1)) + [iso] + cds_list
+        # filter for gap length
+        if longest_gap(consensus) > max_gap_length:
+            continue
 
-    key_list = sorted(key_list, key=lambda k: key_sort[k])
-
-    message = "sp: {} - isoforms kept: {} - isoforms discarded: {} - percent discarded: {}"
-    log.info(message.format(sp, len(key_list), len(selected_isos) - len(key_list),
-                            (len(selected_isos) - len(key_list)) / len(selected_isos) * 100))
-
-    return key_list, gff_groups, n_seqRecs, p_seqRecs
-
-
-def write_gff(path, key_list, gff_groups):
-    with open(path, "w") as f:
-        for key in key_list:
-            for gff_line in gff_groups[key]:
-                f.write(str(gff_line) + "\n")
-
-
-def write_nuc_fasta(path, key_list, n_seqRecs):
-    with open(path, "w") as f:
-        for key in key_list:
-            f.write(n_seqRecs[key].format("fasta"))
-
-
-def write_pep_fasta(path, key_list, p_seqRecs):
-    with open(path, "w") as f:
-        for key in key_list:
-            f.write(p_seqRecs[key].format("fasta"))
+        filtered_universal_exon_spans.append((start,end))
+    return sp_exon_spans, filtered_universal_exon_spans
