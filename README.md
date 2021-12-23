@@ -13,11 +13,11 @@ The program is divided into five steps:
 **Part02** `02_orthofinder.py` and `03_ortho_selection.py` These scripts infer a set of orthologs using Orthofinder v. 2.5.4 (Emms and Kelly, 2019) and extract cluster of orthologs according to set of parameters defined by the user. However other ortholog prediction approaches can also be used.  
 **Part03** `04_alignments_and_filtering.py` This is the main locus selection pipeline, which takes as input ortholog prediction from a variety of genomic and transcriptomic resources (some of which with relatively trustworthy structural annotations: “high quality annotations”). Exon/intron boundaries from the “high quality annotations” are used to predict exon/intron boundaries across all data, and several filtering steps identify conserved exons across data inputs.  
 **Part04** `05_exon_phylogeny.py` This script is intended to infer exon phylogenies following the steps: generates the alignment, determine the best-fit substitution model and reconstruct a maximum likelihood phylogeny.  
-**Part05** `blah06_visualize.py` Data visualization tool, which allows the user to analyze missingness and informativeness of the provided datasets and explore the tree space of exon phylogenies.[TO BE UPDATED]  
+**Part05** `blah06_visualize.py` Data visualization tool, which allows the user to analyze missingness and informativeness of the provided datasets and explore the tree space of exon phylogenies.[TO BE UPDATED ONCE WE FINISH THAT PART]  
 
 ## Installation WILL NEED TO UPDATE .git NAMES
 #### Python
-Install [Anaconda](Emms and Kelly, 2019) distribution of python or comparable Python v3 (Python >=3.7.1).
+Python >=3.7.1 is required.
 #### Download this git repo
 Either use git:
 ```
@@ -43,7 +43,7 @@ linux:
 ```
 
 #### Download Data
-We have included a toy dataset in this GitHub repo [here](INSERT URL), which will allow a user to proceed through all parts of this pipeline. This toy dataset includes abbreviated inputs for all parts of the pipeline, to decrease processing time and make it easier to test all steps. Toy data include input fasta and gff files for ten species assigned to core, supplemental, and outgroup lists (see below) in the provided configuration file. These sample data are produced by three widely used genome annotation tools (Trinity, GeMoMa, NCBI) to illustrate input requirements for data from different sources. 
+We have included a toy dataset in this GitHub repo [here](https://github.com/popphylotools/HiMAP_v2/tree/main/toy_data), which will allow a user to proceed through all parts of this pipeline. This toy dataset includes abbreviated inputs for all parts of the pipeline, to decrease processing time and make it easier to test all steps. Toy data include input fasta and gff files for ten species assigned to core, supplemental, and outgroup lists (see below) in the provided configuration file. These sample data are produced by three widely used genome annotation tools (Trinity, GeMoMa, NCBI) to illustrate input requirements for data from different sources. 
 
 ## Usage: Quick and Dirty
 Configure data paths and parameters by editing config.ini. As configured, it will run with the example data linked above. Old output of each step is deleted before new output files are written. 
@@ -120,4 +120,3 @@ conda env remove --name himap2
 [Forest Bremer](https://github.com/fbremer): Legacy contributor  
 [Julian Dupuis](https://github.com/jrdupuis): Contributor  
 [Scott Geib](https://github.com/scottgeib): Eye candy  
-
