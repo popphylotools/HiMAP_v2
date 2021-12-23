@@ -121,11 +121,7 @@ def universal_exon_spans(seq_dict, n_gap, min_exon_length, max_gap_percent, max_
             continue
 
         # filter for gap percent
-        if gap_percent(consensus) > max_gap_percent:
-            continue
-
-        # filter for gap length
-        if longest_gap(consensus) > max_gap_length:
+        if gap_percent(consensus) > max_gap_percent or longest_gap(consensus) > max_gap_length:
             continue
 
         filtered_universal_exon_spans.append((start,end))
