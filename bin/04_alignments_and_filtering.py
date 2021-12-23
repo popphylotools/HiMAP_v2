@@ -338,10 +338,7 @@ def maft_supp_post(enhanced_alignment_path, final_exon_dir, core_species_list, m
             if gapPercent(seq) > max_gap_percent or longestGap(seq) > max_gap_length:
                 continue
 
-            # filter for gap length
-            #if longestGap(seq) > max_gap_length:
-                #continue
-
+           
             # prep to filter for species membership of ortho
             if coord not in ortho_coords[ortho].keys():
                 ortho_coords[ortho][coord] = set()
