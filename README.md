@@ -77,6 +77,7 @@ This config file also contains paths to the various inputs/intermediate/outputs 
 |   |-- 04b_supplementary_alignment
 |   |-- 04c_final_exons
 |   |-- 05_exon_phylogeny
+|   |-- 06_speciestree
 ```
 
 Then the user should add genome or transcriptome assemblies to `00_fasta` and their corresponding gff files to `00_gff`. The files must be labelled as sample_name.fasta and  sample_name.gff, the species_name must match the names in the config.ini  file.
