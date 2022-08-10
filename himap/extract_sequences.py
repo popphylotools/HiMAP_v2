@@ -132,7 +132,7 @@ def prep_output(sp, selected_isos, db, fasta_path, dtype):
             message = "ValueError - sp:{} - key:{} - error:{}".format(sp, key, e)
             log.debug(message)
             continue
-        if n_seq is "":
+        if n_seq == "":
             message = "Excluding - sp:{} - key:{} - n_seq is empty".format(sp, key)
             log.debug(message)
             continue
