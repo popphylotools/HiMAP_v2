@@ -34,13 +34,9 @@ cd HiMAP
 ```
 
 #### Create Anaconda environments
-osx:
+osx and linux:
 ```
-./osx_create_anaconda_environments.sh
-```
-linux:
-```
-./linux_create_anaconda_environments.sh
+./create_anaconda_environments.sh
 ```
 
 #### Download Data
