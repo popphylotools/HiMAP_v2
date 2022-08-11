@@ -13,6 +13,11 @@ dependencies:
 - mafft=7.487
 - orthofinder=2.5.4
 - diamond=0.9.21
+- modeltest-ng
+- ete3
+- pillow
 - pip:
   - gffutils==0.9
   - pyfaidx==0.5.0
+  - tqdist
+  - scikit-learn
