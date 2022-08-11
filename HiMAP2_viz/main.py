@@ -40,8 +40,8 @@ from bokeh.models.widgets import FileInput
 from bokeh.plotting import figure, curdoc
 ############################################# FUNCTIONS/VALS ######################################
 #Specify path to step_04 final filtered exon directory and step_05 exon phylogeny directory
-exon_path = './data/04c_final_exons/'
-trees_path = './data/05_exon_phylogeny/'
+exon_path = './data/03c_final_exons/'
+trees_path = './data/04_exon_phylogeny/'
 
 #Calculate number of final filtered exons
 exons = len(os.listdir(exon_path))
@@ -186,18 +186,7 @@ p1.select(BoxSelectTool).select_every_mousemove = False
 p1.select(TapTool).mode = 'append'
 
 ###################### TREE PANEL ###################################################
-#t=Tree("/home/dupuislab/HiMAP2/data/05_exon_phylogeny/OG0001005_0-1260/OG0001005_0-1260_aln.fasta.raxml.support")
-#t.render("./ExView/static/tree2.png")
-#p3 = Div(text="<img src='ExView/static/tree.png'>", width=400, height=500)
 p3 = Div(text="", width=400, height=575)
-#img_dict={'url':['ExView/static/tree.png']}
-#img_source = ColumnDataSource(data=img_dict)
-#x_range_p3 = (0,1) 
-#y_range_p3 = (0,1)
-#p3 = figure(x_range=x_range_p3, y_range=y_range_p3, width=400, height=500)
-#img_path = 'https://docs.bokeh.org/en/latest/_static/images/logo.png'
-#p3.image_url(url='url', source=img_source, x=x_range_p3[0],y=y_range_p3[1],w=x_range_p3[1]-x_range_p3[0],h=y_range_p3[1]-y_range_p3[0])
-
 #####################################################################################
 
 #Calculate pairwise quartet distances
@@ -347,18 +336,18 @@ def selection_change(attrname, old, new):
 #############################################
 #############################################
 def mds_change(attrname, old, new):
-    dir = './ExView/static'
+    dir = './HiMAP2_viz/static'
     for f in os.listdir(dir):
         os.remove(os.path.join(dir, f))
     tr_udi = uuid.uuid4().hex.lower()[0:10]
-    tr_img_path="./ExView/static/tree" + tr_udi + ".png"
+    tr_img_path="./HiMAP2_viz/static/tree" + tr_udi + ".png"
     new=source2.selected.indices
     ex_trees=list(source2.data['exon'][new])
-    ex_tr=['./data/05_exon_phylogeny/' + s for s in ex_trees]
-    speciestree_dir = "/project/jdu282_uksr/HiMAP2/ExView/static/"
+    ex_tr=['./data/04_exon_phylogeny/' + s for s in ex_trees]
+    speciestree_dir = './HiMAP2_viz/static'
     path_trees = os.path.join(speciestree_dir,"exon_trees.tre")
     log_err_file = os.path.join(speciestree_dir,"sp_tree.log")
-    astralpath = "/project/jdu282_uksr/HiMAP2/Astral/astral.5.7.8.jar"
+    astralpath = "/home/oksanav/software/Astral/astral.5.7.8.jar"
     max_mem = 8000
     picked_trees = {key: sub_trees[key] for key in ex_tr}    
     output_speciestree = os.path.join(speciestree_dir,"sp_tree.tre")
@@ -373,27 +362,23 @@ def mds_change(attrname, old, new):
         out = p.communicate()
     
     t=Tree(output_speciestree)
-    #print(og)
-    #og = 'TrinityOldRNAseq_Atur_RNAseq_ARSP02'
+    
     t.render(tr_img_path)
     text = "<img src = \'" + tr_img_path + "\'>"
     p3.text = text
-    #os.remove(tr_img_path)
-    #img_dict={'url':[tr_img_path]}
-    #img_source = ColumnDataSource(data=img_dict)
-    #p3.image_url(url='url', source=img_source, x=x_range_p3[0],y=y_range_p3[1],w=x_range_p3[1]-x_range_p3[0],h=y_range_p3[1]-y_range_p3[0])
+    
 #############################################
 #############################################
 def root_tr():
-    stat_dir = './ExView/static'
+    stat_dir = './HiMAP2_viz/static'
     files_in_directory = os.listdir(stat_dir)
     filtered_files = [file for file in files_in_directory if file.endswith(".png")]
     for file in filtered_files:
         path_to_file = os.path.join(stat_dir, file)
         os.remove(path_to_file)
-    sp_tr = Tree('./ExView/static/sp_tree.tre')
+    sp_tr = Tree('./HiMAP2_viz/static/sp_tree.tre')
     tr_udi = uuid.uuid4().hex.lower()[0:10]
-    tr_img_path="./ExView/static/tree" + tr_udi + ".png"
+    tr_img_path="./HiMAP2_viz/static/tree" + tr_udi + ".png"
     
     if len(og_select.value) == 1:
         og=og_select.value[0]
