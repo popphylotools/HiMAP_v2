@@ -6,6 +6,8 @@ CSV_DIR=${3}
 
 rm -r ${CSV_DIR}/*
 
+ulimit -n 2400
+
 orthofinder -f ${IN_DIR} -o ${OUT_DIR}
 
 cp $(find . -name "Orthogroups.tsv") ${CSV_DIR}
