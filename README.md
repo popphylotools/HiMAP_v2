@@ -51,7 +51,7 @@ conda activate himap2
 ```
 Run the desired script located in the bin directory, e.g.:
 ```
-python [Himap_path]/bin/00_initilize_working_dir.py
+[Himap2_path]/bin/00_initilize_working_dir.py
 ```
 
 ## Usage: Detailed
