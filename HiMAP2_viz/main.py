@@ -14,10 +14,8 @@ from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
 import holoviews as hv
-#import hvplot.pandas
 import bokeh
 import itertools
-#import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.manifold import MDS
 import csv
@@ -38,6 +36,9 @@ from bokeh.layouts import row, column
 from bokeh.models import Button, Slider, MultiSelect, Select, Div
 from bokeh.models.widgets import FileInput
 from bokeh.plotting import figure, curdoc
+import configparser
+config = configparser.ConfigParser()
+config.read('./config.ini')
 ############################################# FUNCTIONS/VALS ######################################
 #Specify path to step_04 final filtered exon directory and step_05 exon phylogeny directory
 exon_path = './data/03c_final_exons/'
@@ -78,7 +79,6 @@ p2.select(TapTool).mode = 'append'
 
 # add multiselect to select taxa to display
 multi_select = MultiSelect(title="Select taxa to show:", options=unique_names, value=unique_names, height=480)
-#select_og = Select(title="Select one outgroup:", options=unique_names, value=unique_names[0])
 og_select = MultiSelect(title="Select outgroup:", options=unique_names, value=[unique_names[0]], size=4)
 ## add a button widget and configure with the call back
 button = Button(label="Show plots", width=100, height=50, align="end")
@@ -120,10 +120,8 @@ def compute_similarity(seq_1, seq_2):
 def sim_by_sp(name):
     fn = os.path.join(exon_path, name)
     info=[]
-    #length=[]
     with open(fn, 'r') as seq:
         ortho_file = SeqIO.parse(seq, 'fasta')
-        #ortho_seqs = [record for record in ortho_file]
         ortho_seqs=[]
         for record in ortho_file:
             length=len(record)
@@ -146,7 +144,6 @@ def sim_by_sp(name):
         info1=pd.DataFrame(data, index=[name])
     return info1
 p = Pool()
-#  start = time.time()
 async_result = p.map(sim_by_sp, orth)
 p.close()
 p.join()
@@ -187,6 +184,7 @@ p1.select(TapTool).mode = 'append'
 
 ###################### TREE PANEL ###################################################
 p3 = Div(text="", width=400, height=575)
+
 #####################################################################################
 
 #Calculate pairwise quartet distances
@@ -203,8 +201,6 @@ def qrt_dist(tr):
         qscore = tqdist.quartet_distance(a, b)
         score.append(qscore)
     return score
-
-
 
 def update_data():
     orth = []
@@ -237,7 +233,6 @@ def update_data():
     print(df3a)
     datay={'sim_bins':df3a['sim_bins'].astype('str'),'miss_bins': df3a['miss_bins'].astype('str'), 'count': pd.to_numeric(df3a['count'])}
     source1.data = datay
-    #mapper = LinearColorMapper(palette='Viridis256', low=source1.data['count'].min(), high=source1.data['count'].max())
     color_bar = ColorBar(color_mapper=mapper, ticker=BasicTicker(desired_num_ticks=12), title="Number of exons")
     p1.x_range.factors=list(np.unique(source1.data['miss_bins']))
     p1.y_range.factors=list(np.unique(source1.data['sim_bins']))
@@ -280,14 +275,12 @@ def selection_change(attrname, old, new):
                 continue
     print('Total number of exon trees: ', len(trees))
     #get subset of tree based on the final selected list of exons
-    #sub_trees = {key: trees[key] for key in final_list}
     sub_trees = {}
     for key in final_list:
         if key in trees:
             sub_trees[key] = trees[key]
         else:
             continue
-    #mds_source=ColumnDataSource(sub_trees)
     #get avg bootstrap values for all trees
     avg_bootstrap = []
     taxa = []
@@ -307,8 +300,6 @@ def selection_change(attrname, old, new):
     qrt_result = p.map(qrt_dist, sub_trees.values())
     p.close()
     p.join()
-    
-    #results = pd.concat(async_result)
     df_q = pd.DataFrame(qrt_result, columns=sub_trees.keys())
     print(df_q)
     #MDS stuff; reduce number of dimensions to 2
@@ -321,21 +312,18 @@ def selection_change(attrname, old, new):
     df_mds['taxa'] = taxa
     df_mds['size']=df_mds['taxa']/900
     df_mds=df_mds.apply(pd.to_numeric)
-    #fina_list=[i.split('.', 1)[0] for i in fin_list]
     df_mds['exon'] =[i.split('/')[3] for i in list(df_q.columns)]
     df_mds = df_mds.rename(columns={df_mds.columns[0]: 'Dim1'})
     df_mds = df_mds.rename(columns={df_mds.columns[1]: 'Dim2'})
     print(df_mds.head(n=5))
     source2.data = df_mds
-    #mapper2= LinearColorMapper(palette=palette, low=min(source2.data['boot']), high=max(source2.data['boot']))
     mapper2.low = min(source2.data['boot'])
     mapper2.high = max(source2.data['boot'])
-    #p2.x_range=list(source2.data['Dim1'])
-    #p2.y_range=list(source2.data['Dim2'])
 
 #############################################
 #############################################
 def mds_change(attrname, old, new):
+    astralpath = config["External_program"]["astral_path"]
     dir = './HiMAP2_viz/static'
     for f in os.listdir(dir):
         os.remove(os.path.join(dir, f))
@@ -344,10 +332,9 @@ def mds_change(attrname, old, new):
     new=source2.selected.indices
     ex_trees=list(source2.data['exon'][new])
     ex_tr=['./data/04_exon_phylogeny/' + s for s in ex_trees]
-    speciestree_dir = './HiMAP2_viz/static'
+    speciestree_dir = "/home/oksanav/HiMAP2/HiMAP2_viz/static/"
     path_trees = os.path.join(speciestree_dir,"exon_trees.tre")
     log_err_file = os.path.join(speciestree_dir,"sp_tree.log")
-    astralpath = "/home/oksanav/software/Astral/astral.5.7.8.jar"
     max_mem = 8000
     picked_trees = {key: sub_trees[key] for key in ex_tr}    
     output_speciestree = os.path.join(speciestree_dir,"sp_tree.tre")
@@ -362,11 +349,9 @@ def mds_change(attrname, old, new):
         out = p.communicate()
     
     t=Tree(output_speciestree)
-    
     t.render(tr_img_path)
     text = "<img src = \'" + tr_img_path + "\'>"
     p3.text = text
-    
 #############################################
 #############################################
 def root_tr():
@@ -415,10 +400,8 @@ def export_exons():
         miss_range=ex[(ex['miss_bins'].astype('str') == a1[mr]) & (ex['sim_bins'].astype('str') == b1[mr])].index.tolist()
         miss.append(miss_range)
     miss_flat = [item for sublist in miss for item in sublist]
-    #sim_flat = [item for sublist in sim for item in sublist]
     final_list = set(miss_flat)
     print(len(miss_flat))
-    #print(len(sim_flat))
     print(final_list)
     
     sub_raw=raw[raw["Exon"].isin(miss_flat)].drop('Exon', 1)
@@ -453,7 +436,6 @@ def export_mds_exons():
     a1=a
     
     fin_list=list(a1)
-    #sim_flat = [item for sublist in sim for item in sublist]
     final_list = set(fin_list)
     print(final_list)
     fina_list=[s + '.fasta' for s in fin_list]
@@ -462,8 +444,6 @@ def export_mds_exons():
     
     for ex in final_list:
         seqs=[]
-        #ex1=ex.split('/')[3]
-        #print(ex1)
         path = os.path.join(ex_path, ex + ".fasta")
         for seq_record in SeqIO.parse(path, "fasta"):
             if seq_record.id in taxa:
