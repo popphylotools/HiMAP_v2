@@ -161,4 +161,4 @@ Main
 """
 input_list,output_list,clusterID_list = prepare_multitask(input_dir,output_dir)
 multitask_mafft_raxml_ng(input_list,output_list,clusterID_list,num_cores) 
-print("Step_05 is complete")
+print("Step_04 is complete")
