@@ -7,7 +7,7 @@ HiMAP2 is a tool designed to identify informative loci from diverse genomic and 
 
 ## Overview 
 The program is divided into six steps:  
-**Part0** `00_initilize_working_dir.py` This is a preprocessing step that aims to create the directory tree, which will be used for the next steps.  
+**Part0** `00_initialize_working_dir.py` This is a preprocessing step that aims to create the directory tree, which will be used for the next steps.  
 **Part01** `01_sequence_extraction.py` This script takes the genomic and transcriptomic sequences along with their gff files as inputs to extract the set of coding sequences per sample.  
 **Part02** `02a_orthofinder.py` and `02b_ortho_selection.py` These scripts infer a set of orthologs using Orthofinder v. 2.5.4 (Emms and Kelly, 2019) and extract cluster of orthologs according to set of parameters defined by the user. However other ortholog prediction approaches can also be used.  
 **Part03** `03_alignments_and_filtering.py` This is the main locus selection pipeline, which takes as input ortholog prediction from a variety of genomic and transcriptomic resources (some of which with relatively trustworthy structural annotations: “high quality annotations”). Exon/intron boundaries from the “high quality annotations” are used to predict exon/intron boundaries across all data, and several filtering steps identify conserved exons across data inputs.  
@@ -51,7 +51,7 @@ conda activate himap2
 ```
 Run the desired script located in the bin directory, e.g.:
 ```
-[Himap2_path]/bin/00_initilize_working_dir.py
+[Himap2_path]/bin/00_initialize_working_dir.py
 ```
 
 ## Usage: Detailed
@@ -60,7 +60,7 @@ The file `config.ini` contains various parameters and data paths for running all
 **Supplemental species** include those with “lower quality” annotations, which will add data to the analysis, but not necessarily limit exon prediction due to lower quality.  
 **Outgroup species** include highly divergent data for the group in question. These will not impact exon selection, but outgroup data will be added when possible.  
 
-This config file also contains paths to the various inputs/intermediate/outputs for each part. If using all steps of this pipeline, we suggest using 00_initilize_working_dir.py, which generates all necessary directories as in the following directory tree (these directories):
+This config file also contains paths to the various inputs/intermediate/outputs for each part. If using all steps of this pipeline, we suggest using 00_initialize_working_dir.py, which generates all necessary directories as in the following directory tree (these directories):
 ```
 |-- data
 |   |-- 00_fasta
