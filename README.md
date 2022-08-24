@@ -16,14 +16,14 @@ The program is divided into six steps:
 **Part06** `HiMAP2_viz` Data visualization tool, which allows the user to analyze missingness and informativeness of the provided datasets and explore the tree space of exon phylogenies. ExView is an interactive Bokeh application included in the HiMAP2 conda environment. 
 
 
-## Installation WILL NEED TO UPDATE .git NAMES
+## Installation
 #### Python
 Python >=3.7.1 is required.
 #### Download this git repo
 Either use git:
 ```
-git https://github.com/popphylotools/HiMAP.git
-cd HiMAP
+git clone https://github.com/popphylotools/HiMAP_v2.git
+cd HiMAP_v2
 ```
 or curl: [EDIT THIS]
 ```
