@@ -23,14 +23,15 @@ Python >=3.7.1 is required.
 Either use git:
 ```
 git clone https://github.com/popphylotools/HiMAP_v2.git
-cd HiMAP_v2
+mv HiMAP_v2 HiMAP2
+cd HiMAP2
 ```
-or curl: [EDIT THIS]
+or curl:
 ```
-curl "https://codeload.github.com/popphylotools/HiMAP/zip/master" -o "HiMAP-master.zip"
-unzip HiMAP-master.zip
-mv HiMAP-master HiMAP
-cd HiMAP
+curl -L "https://github.com/popphylotools/HiMAP_v2/archive/main.zip" -o HiMAP_v2.zip
+unzip HiMAP_v2.zip
+mv HiMAP_v2-main HiMAP2
+cd HiMAP2
 ```
 
 #### Create Anaconda environments
@@ -127,4 +128,4 @@ conda env remove --name himap2
 [Carlos Congrains](https://github.com/carloscongrains): Contributor  
 [Forest Bremer](https://github.com/fbremer): Legacy contributor  
 [Julian Dupuis](https://github.com/jrdupuis): Contributor  
-[Scott Geib](https://github.com/scottgeib): Eye candy  
+[Scott Geib](https://github.com/scottgeib): Contributor  
