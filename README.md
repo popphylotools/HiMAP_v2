@@ -24,6 +24,7 @@ Either use git:
 ```
 git clone https://github.com/popphylotools/HiMAP_v2.git
 mv HiMAP_v2 HiMAP2
+chmod -R +x HiMAP2
 cd HiMAP2
 ```
 or curl:
@@ -31,6 +32,7 @@ or curl:
 curl -L "https://github.com/popphylotools/HiMAP_v2/archive/main.zip" -o HiMAP_v2.zip
 unzip HiMAP_v2.zip
 mv HiMAP_v2-main HiMAP2
+chmod -R +x HiMAP2
 cd HiMAP2
 ```
 
