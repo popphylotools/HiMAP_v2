@@ -1,4 +1,4 @@
-# HiMap_2.0
+# HiMap_v2
 
 ![SOPHISTICATED IMAGE OF A 3-PANEL WEB GUI THING](Bokeh_app.png)
 # Description
