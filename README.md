@@ -23,7 +23,7 @@ Python >=3.7.1 is required.
 Either use git:
 ```
 git clone https://github.com/popphylotools/HiMAP_v2.git
-mv HiMAP_v2-main HiMAP2
+mv HiMAP_v2 HiMAP2
 find HiMAP2 -type f -name "*.py" -o -name "*.sh" -exec chmod +x {} \;
 cd HiMAP2
 #Alternatively, change permissions for the HiMAP2 directory and all its content
