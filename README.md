@@ -18,6 +18,7 @@ The program is divided into six steps:
 
 ## Installation
 #### Python
+Conda installer (Anaconda, Miniconda, Mamba)
 Python >=3.7.1 is required.
 #### Download this git repo
 Either use git:
