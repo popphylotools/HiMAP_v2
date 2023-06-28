@@ -3,7 +3,7 @@
 ![SOPHISTICATED IMAGE OF A 3-PANEL WEB GUI THING](Bokeh_app.png)
 # Description
 
-HiMAP2 is a tool designed to identify informative loci from diverse genomic and transcriptomic resources in a phylogenomic framework. Our intended use of this tool is to identify informative loci for phylogenetic studies, but it can also be used more widely for comparative genomic tasks. HiMAP2 builds on the original HiMAP pipeline [(Dupuis et al., 2018)]( https://onlinelibrary.wiley.com/doi/abs/10.1111/1755-0998.12783), which identified orthologous exon clusters from annotated transcriptome/genome assemblies. 
+HiMAP2 is a tool designed to identify informative loci from diverse genomic and transcriptomic resources in a phylogenomic framework. Our intended use of this tool is to identify informative loci for phylogenetic studies, but it can also be used more widely for comparative genomic tasks. HiMAP2 builds on the original HiMAP pipeline [(Dupuis et al., 2018)]( https://onlinelibrary.wiley.com/doi/abs/10.1111/1755-0998.12783), which identified orthologous exon clusters from annotated transcriptome/genome assemblies. See our paper in [Molecular Ecology Resources (Vernygora et al. 2023)](https://onlinelibrary.wiley.com/doi/10.1111/1755-0998.13762) for more information
 
 ## Overview 
 The program is divided into six steps:  
